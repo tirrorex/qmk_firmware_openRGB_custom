@@ -43,7 +43,7 @@
 
 #define DIODE_DIRECTION ROW2COL
 
-/* 
+/*
  * Feature
  */
 #define USB_POLLING_INTERVAL_MS 1           /* 1000 Hz */
@@ -58,7 +58,7 @@
 #define RGB_MATRIX_STARTUP_MODE RGB_MATRIX_CUSTOM_RIPPLE
 #endif
 
-/* 
+/*
  * Optimization
  */
 #define NO_ACTION_MACRO
@@ -72,4 +72,10 @@
 
 #include "config_led.h"
 
-// #define DEBUG_GMMK
+#include "config_led.h"
+
+/* change the g_led_config global to const for RAM saving */
+#define RGB_MATRIX_CONST_LED_CONFIG
+
+/* use unbuffered direct mode in OpenRGB protocol */
+#define OPENRGB_DIRECT_MODE_UNBUFFERED
