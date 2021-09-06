@@ -1,0 +1,22 @@
+TMP_SRC := $(SRC)
+SRC = $(filter-out ../led_matrix.c, $(TMP_SRC))
+SRC += led_matrix.c
+
+MAGIC_ENABLE = no
+MAGIC_KEYCODE_ENABLE = no
+BOOTMAGIC_ENABLE = no
+EXTRAKEY_ENABLE = yes
+NKRO_ENABLE = yes
+KEYBOARD_SHARED_EP = yes
+RGB_MATRIX_ENABLE = yes
+RGB_MATRIX_DRIVER = custom
+
+RGBLIGHT_ENABLE = no
+# RGBLIGHT_DRIVER = SK6812
+
+
+
+OPENRGB_ENABLE=yes
+OPENRGB_USE_CUSTOM_MATRIX_MAP = yes
+
+# Custom RGB matrix handling
