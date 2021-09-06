@@ -36,7 +36,8 @@ enum my_keycodes {
     IND_MOD = SAFE_RANGE,   // Toggles between indicator modes
     WLK_AWY,                //
     LGO_MOD,                // Rotates through logo display modes
-    CST_MOD                 // For typing a constant variable name
+    CST_MOD,                // For typing a constant variable name
+    RCK_ROL
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -52,7 +53,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_CONTROLS] = LAYOUT_ansi(
                 _______,                   _______,       _______,   _______,       _______,    _______,   _______,       _______,       _______,       _______,     _______,    _______,     _______,     RGB_RMOD,    RGB_MOD,    _______,
                 _______,    _______,       _______,       _______,   _______,       _______,    _______,   _______,       _______,       _______,       _______,     CST_MOD,    _______,       RESET,     RGB_HUI,     RGB_SAI,    RGB_VAI,
-                _______,    _______,       _______,       _______,   _______,       _______,    _______,   _______,       _______,       _______,       _______,     _______,    _______,     IND_MOD,     RGB_HUD,     RGB_SAD,    RGB_VAD,
+                _______,    _______,       _______,       _______,   RCK_ROL,       _______,    _______,   _______,       _______,       _______,       _______,     _______,    _______,     IND_MOD,     RGB_HUD,     RGB_SAD,    RGB_VAD,
                 _______,    _______,       _______,       _______,   _______,       _______,    _______,   _______,       _______,       _______,       _______,     _______,                 LGO_MOD,
                 _______,                   _______,       _______,   _______,       _______,    _______,   _______,       _______,       _______,       _______,     _______,                 _______,                  KC_VOLU,
                 _______,    _______,       _______,                                             KC_MPLY,                                                _______,     _______,    _______,     WLK_AWY,     KC_MPRV,     KC_VOLD,    KC_MNXT
@@ -70,8 +71,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 bool inc_matrix_mode = false;
 bool caps = false;
-int strip = 0; // 0 = normal part of matrix; 1 = caps indicator; 2 = solid white; 3 = off
+int strip = 3; // 0 = normal part of matrix; 1 = caps indicator; 2 = solid white; 3 = off
 bool const_mode = false;
+static uint16_t rick_roll_timer;
+int rick_roll_step = -1;
 
 bool led_update_user(led_t led_state) {
     caps = led_state.caps_lock;
@@ -87,6 +90,43 @@ void rgb_matrix_set_strip(uint8_t red, uint8_t green, uint8_t blue) {
     rgb_matrix_set_color(92, red, green, blue);
     rgb_matrix_set_color(93, red, green, blue);
     rgb_matrix_set_color(94, red, green, blue);
+}
+
+void rickroll(void) {
+    uint16_t t = timer_elapsed(rick_roll_timer);
+    if (t < 500) { return; }
+    switch (rick_roll_step) {
+        case 0:
+            tap_code16(G(KC_R));
+            break;
+        case 1:
+            SEND_STRING("SndVol");
+            tap_code(KC_ENT);
+            break;
+        case 2:
+            tap_code(KC_HOME);
+            break;
+        case 3:
+            tap_code16(A(KC_F4));
+            break;
+        case 4:
+            tap_code16(G(KC_R));
+            break;
+        case 5:
+            SEND_STRING("https://youtu.be/dQw4w9WgXcQ?t=43s");
+            tap_code(KC_ENT);
+            break;
+        case 6:
+            if (t < 3000) { return; }
+            tap_code16(S(KC_F));
+            break;
+        case 7:
+            return;
+        default:
+            return;
+    }
+    rick_roll_step += 1;
+    rick_roll_timer = timer_read();
 }
 
 void rgb_matrix_indicators_user(void) {
@@ -148,6 +188,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 const_mode = !const_mode;
             }
+        case RCK_ROL:
+            if (record->event.pressed) {
+                rick_roll_step = 0;
+            }
     }
     return true;
+}
+
+void matrix_scan_user(void) {
+    rickroll();
 }
