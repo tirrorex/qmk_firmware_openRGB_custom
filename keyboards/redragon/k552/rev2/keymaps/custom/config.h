@@ -55,6 +55,6 @@
 // #define NOP_FUDGE .03
 #define STM32_SYSCLK 48000000
 #define RGBW
-#define WS2812_TRST_US 100
+// #define WS2812_TRST_US 100
 
 #define FORCE_NKRO
