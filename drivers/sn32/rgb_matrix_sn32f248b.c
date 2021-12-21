@@ -111,7 +111,7 @@ void rgb_ch_ctrl(PWMConfig *cfg) {
                 cfg->channels[1].mode = PWM_OUTPUT_ACTIVE_LOW;
                 chan_col_order[i] = 1;
                 break;
-            
+
             case B10:
                 cfg->channels[2].pfpamsk = 1;
             case A2:
@@ -353,7 +353,7 @@ void SN32F24XX_init(void) {
     shared_matrix_rgb_enable();
 }
 
-static void flush(void) {} // Due to the way we do PWM, every cycle is a flush
+// static void flush(void) {} // Due to the way we do PWM, every cycle is a flush
 
 void SN32F24XX_set_color(int index, uint8_t r, uint8_t g, uint8_t b) {
             led_state[index].r = r;
@@ -367,9 +367,9 @@ void SN32F24XX_set_color_all(uint8_t r, uint8_t g, uint8_t b) {
     }
 }
 
-const rgb_matrix_driver_t rgb_matrix_driver = {
-    .init          = SN32F24XX_init,
-    .flush         = flush,
-    .set_color     = SN32F24XX_set_color,
-    .set_color_all = SN32F24XX_set_color_all,
-};
+// const rgb_matrix_driver_t rgb_matrix_driver = {
+//     .init          = SN32F24XX_init,
+//     .flush         = flush,
+//     .set_color     = SN32F24XX_set_color,
+//     .set_color_all = SN32F24XX_set_color_all,
+// };
