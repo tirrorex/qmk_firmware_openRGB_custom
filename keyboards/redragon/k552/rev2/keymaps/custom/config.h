@@ -52,7 +52,7 @@
 
 #define RGB_DI_PIN D5
 #define RGBLED_NUM 8
-// #define NOP_FUDGE .03
+#define NOP_FUDGE 0.4
 #define STM32_SYSCLK 48000000
 #define RGBW
 // #define WS2812_TRST_US 100
