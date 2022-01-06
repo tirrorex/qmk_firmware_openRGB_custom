@@ -53,10 +53,13 @@ void set_color(int index, uint8_t r, uint8_t g, uint8_t b) {
     if (index < DRIVER_LED_TOTAL - RGBLED_NUM) {
         SN32F24XX_set_color(index, r, g, b);
     } else {
+        r /= 10;
+        g /= 10;
+        b /= 10;
         rgb_matrix_ws2812_array[index + RGBLED_NUM - DRIVER_LED_TOTAL].r = r;
         rgb_matrix_ws2812_array[index + RGBLED_NUM - DRIVER_LED_TOTAL].g = g;
         rgb_matrix_ws2812_array[index + RGBLED_NUM - DRIVER_LED_TOTAL].b = b;
-        convert_rgb_to_rgbw(&rgb_matrix_ws2812_array[index + RGBLED_NUM - DRIVER_LED_TOTAL]);
+        // convert_rgb_to_rgbw(&rgb_matrix_ws2812_array[index + RGBLED_NUM - DRIVER_LED_TOTAL]);
     }
 }
 
