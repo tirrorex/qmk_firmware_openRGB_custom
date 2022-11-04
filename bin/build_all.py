@@ -42,6 +42,7 @@ BOARDS = [
     'keychron/k8/rgb/via',
     'keychron/k8/rgb/optical',
     'keychron/k8/rgb/optical_via',
+    'keychron/Q1AnsiV2Knob/rgb/ansi',
     'keychron/k14/rgb',
     'keychron/k14/rgb/via',
     'keychron/k14/rgb/optical',
